@@ -284,100 +284,124 @@ We value your feedback! If you have any suggestions, ideas, or issues to report,
 
 ## DB Design :
 
-1. **Users Table**:
-    - **Columns**:
-        - user_id (INT, Primary Key, Auto-increment)
-        - username (VARCHAR)
-        - email (VARCHAR)
-        - password_hash (VARCHAR)
-        - created_at (TIMESTAMP)
-        - updated_at (TIMESTAMP)
-2. **Projects Table**:
-    - **Columns**:
-        - project_id (INT, Primary Key, Auto-increment)
-        - title (VARCHAR)
-        - description (TEXT)
-        - tech_stack (VARCHAR)
-        - visibility (ENUM: 'public', 'private')
-        - owner_id (INT, Foreign Key referencing Users Table)
-        - created_at (TIMESTAMP)
-        - updated_at (TIMESTAMP)
-3. **Teams Table**:
-    - **Columns**:
-        - team_id (INT, Primary Key, Auto-increment)
-        - name (VARCHAR)
-        - description (TEXT)
-        - project_id (INT, Foreign Key referencing Projects Table)
-        - created_at (TIMESTAMP)
-        - updated_at (TIMESTAMP)
-4. **Team Members Table**:
-    - **Columns**:
-        - team_id (INT, Foreign Key referencing Teams Table)
-        - user_id (INT, Foreign Key referencing Users Table)
-        - role (ENUM: 'member', 'admin')
-        - created_at (TIMESTAMP)
-        - updated_at (TIMESTAMP)
-5. **Messages Table**:
-    - **Columns**:
-        - message_id (INT, Primary Key, Auto-increment)
-        - sender_id (INT, Foreign Key referencing Users Table)
-        - recipient_id (INT, Foreign Key referencing Users Table)
-        - content (TEXT)
-        - timestamp (TIMESTAMP)
-6. **Files Table**:
-    - **Columns**:
-        - file_id (INT, Primary Key, Auto-increment)
-        - name (VARCHAR)
-        - path (VARCHAR)
-        - project_id (INT, Foreign Key referencing Projects Table)
-        - uploaded_by (INT, Foreign Key referencing Users Table)
-        - uploaded_at (TIMESTAMP)
-7. **Project-User Relationship Table**:
-    - **Columns**:
-        - project_id (INT, Foreign Key referencing Projects Table)
-        - user_id (INT, Foreign Key referencing Users Table)
-        - role (ENUM: 'owner', 'collaborator')
-        - joined_at (TIMESTAMP)
-8. **Notifications Table**:
-    - **Columns**:
-        - notification_id (INT, Primary Key, Auto-increment)
-        - user_id (INT, Foreign Key referencing Users Table)
-        - content (TEXT)
-        - timestamp (TIMESTAMP)
-        - is_read (BOOLEAN)
-9. **Subscriptions Table** (if you have premium features or subscription plans):
-    - **Columns**:
-        - subscription_id (INT, Primary Key, Auto-increment)
-        - user_id (INT, Foreign Key referencing Users Table)
-        - plan_id (INT, Foreign Key referencing Subscription Plans Table)
-        - start_date (DATE)
-        - end_date (DATE)
-        - status (ENUM: 'active', 'inactive', 'canceled')
-10. **Subscription Plans Table**:
-    - **Columns**:
-        - plan_id (INT, Primary Key, Auto-increment)
-        - name (VARCHAR)
-        - description (TEXT)
-        - price (DECIMAL)
-        - duration_months (INT)
-        - max_projects (INT)
-        - max_team_members (INT)
-        - features (TEXT)
-11. **Analytics Table**:
-    - **Columns**:
-        - analytics_id (INT, Primary Key, Auto-increment)
-        - user_id (INT, Foreign Key referencing Users Table)
-        - event_type (VARCHAR)
-        - event_data (TEXT)
-        - timestamp (TIMESTAMP)
-12. **Feedback Table**:
-    - **Columns**:
-        - feedback_id (INT, Primary Key, Auto-increment)
-        - user_id (INT, Foreign Key referencing Users Table)
-        - project_id (INT, Foreign Key referencing Projects Table)
-        - rating (INT)
-        - comment (TEXT)
-        - timestamp (TIMESTAMP)
+## Users Table
+| **Column**   | **Data Type** | **Constraints**                 |
+|--------------|---------------|---------------------------------|
+| user_id      | INT           | Primary Key, Auto-increment     |
+| username     | VARCHAR       |                                 |
+| email        | VARCHAR       |                                 |
+| password_hash| VARCHAR       |                                 |
+| created_at   | TIMESTAMP     |                                 |
+| updated_at   | TIMESTAMP     |                                 |
+
+## Projects Table
+| **Column**   | **Data Type** | **Constraints**                        |
+|--------------|---------------|----------------------------------------|
+| project_id   | INT           | Primary Key, Auto-increment            |
+| title        | VARCHAR       |                                        |
+| description  | TEXT          |                                        |
+| tech_stack   | VARCHAR       |                                        |
+| visibility   | ENUM          | 'public', 'private'                    |
+| owner_id     | INT           | Foreign Key referencing Users Table    |
+| created_at   | TIMESTAMP     |                                        |
+| updated_at   | TIMESTAMP     |                                        |
+
+## Teams Table
+| **Column**   | **Data Type** | **Constraints**                        |
+|--------------|---------------|----------------------------------------|
+| team_id      | INT           | Primary Key, Auto-increment            |
+| name         | VARCHAR       |                                        |
+| description  | TEXT          |                                        |
+| project_id   | INT           | Foreign Key referencing Projects Table |
+| created_at   | TIMESTAMP     |                                        |
+| updated_at   | TIMESTAMP     |                                        |
+
+## Team Members Table
+| **Column**   | **Data Type** | **Constraints**                        |
+|--------------|---------------|----------------------------------------|
+| team_id      | INT           | Foreign Key referencing Teams Table    |
+| user_id      | INT           | Foreign Key referencing Users Table    |
+| role         | ENUM          | 'member', 'admin'                      |
+| created_at   | TIMESTAMP     |                                        |
+| updated_at   | TIMESTAMP     |                                        |
+
+## Messages Table
+| **Column**   | **Data Type** | **Constraints**                        |
+|--------------|---------------|----------------------------------------|
+| message_id   | INT           | Primary Key, Auto-increment            |
+| sender_id    | INT           | Foreign Key referencing Users Table    |
+| recipient_id | INT           | Foreign Key referencing Users Table    |
+| content      | TEXT          |                                        |
+| timestamp    | TIMESTAMP     |                                        |
+
+## Files Table
+| **Column**   | **Data Type** | **Constraints**                        |
+|--------------|---------------|----------------------------------------|
+| file_id      | INT           | Primary Key, Auto-increment            |
+| name         | VARCHAR       |                                        |
+| path         | VARCHAR       |                                        |
+| project_id   | INT           | Foreign Key referencing Projects Table |
+| uploaded_by  | INT           | Foreign Key referencing Users Table    |
+| uploaded_at  | TIMESTAMP     |                                        |
+
+## Project-User Relationship Table
+| **Column**   | **Data Type** | **Constraints**                        |
+|--------------|---------------|----------------------------------------|
+| project_id   | INT           | Foreign Key referencing Projects Table |
+| user_id      | INT           | Foreign Key referencing Users Table    |
+| role         | ENUM          | 'owner', 'collaborator'                |
+| joined_at    | TIMESTAMP     |                                        |
+
+## Notifications Table
+| **Column**   | **Data Type** | **Constraints**                        |
+|--------------|---------------|----------------------------------------|
+| notification_id | INT        | Primary Key, Auto-increment            |
+| user_id      | INT           | Foreign Key referencing Users Table    |
+| content      | TEXT          |                                        |
+| timestamp    | TIMESTAMP     |                                        |
+| is_read      | BOOLEAN       |                                        |
+
+## Subscriptions Table
+| **Column**   | **Data Type** | **Constraints**                        |
+|--------------|---------------|----------------------------------------|
+| subscription_id | INT        | Primary Key, Auto-increment            |
+| user_id      | INT           | Foreign Key referencing Users Table    |
+| plan_id      | INT           | Foreign Key referencing Subscription Plans Table |
+| start_date   | DATE          |                                        |
+| end_date     | DATE          |                                        |
+| status       | ENUM          | 'active', 'inactive', 'canceled'      |
+
+## Subscription Plans Table
+| **Column**   | **Data Type** | **Constraints**                        |
+|--------------|---------------|----------------------------------------|
+| plan_id      | INT           | Primary Key, Auto-increment            |
+| name         | VARCHAR       |                                        |
+| description  | TEXT          |                                        |
+| price        | DECIMAL       |                                        |
+| duration_months | INT        |                                        |
+| max_projects | INT           |                                        |
+| max_team_members | INT       |                                        |
+| features     | TEXT          |                                        |
+
+## Analytics Table
+| **Column**   | **Data Type** | **Constraints**                        |
+|--------------|---------------|----------------------------------------|
+| analytics_id | INT           | Primary Key, Auto-increment            |
+| user_id      | INT           | Foreign Key referencing Users Table    |
+| event_type   | VARCHAR       |                                        |
+| event_data   | TEXT          |                                        |
+| timestamp    | TIMESTAMP     |                                        |
+
+## Feedback Table
+| **Column**   | **Data Type** | **Constraints**                        |
+|--------------|---------------|----------------------------------------|
+| feedback_id  | INT           | Primary Key, Auto-increment            |
+| user_id      | INT           | Foreign Key referencing Users Table    |
+| project_id   | INT           | Foreign Key referencing Projects Table |
+| rating       | INT           |                                        |
+| comment      | TEXT          |                                        |
+| timestamp    | TIMESTAMP     |                                        |
+
 
 ## **Deployment:**
 
